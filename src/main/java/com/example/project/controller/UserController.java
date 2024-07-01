@@ -1,31 +1,23 @@
 package com.example.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.project.entity.User;
-import com.example.project.repository.UserRepository;
+import com.example.project.model.User;
+import com.example.project.service.UserService;
 
 @RestController
-@RequestMapping(path = "/api/v1/users")
+@RequestMapping(path = "/users")
 public class UserController {
 	@Autowired
-
-	private UserRepository userRepository;
-	
-	@GetMapping(path = "/test")
-	public String test() {
-		return "Testing";
-	}
+	private UserService userService;
 
 	@GetMapping(path = "/index")
-	public @ResponseBody Iterable<User> getAllUsers() {
-		// This returns a JSON or XML with the users
-		return userRepository.findAll();
+	public ResponseEntity<Iterable<User>> getAllUsers() {
+		Iterable<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
 	}
-
 }
